@@ -6,9 +6,10 @@ mezclada).
 
 ## Requerimientos funcionales
 
-| ID | Requerimiento | Fragmento(s) de origen |
-|----|---------------|--------------------------|
-| RF-01 | | |
+| ID | Issue | Requerimiento | Nivel / Tipo | Fragmento(s) de origen | Verif. |
+|-------|-------|---------------|--------------|------------------------|--------|
+
+| RF-01 | G01-1 | El sistema debe registrar para cada siniestro un único estado elegido de una lista cerrada, sin admitir texto libre ni valor vacío. | Sistema / F | Caso 3.3; V1; planilla, columna ESTADO | Un estado fuera de la lista o vacío no se puede guardar. |
 | RF-02 | | |
 | RF-03 | | |
 | RF-04 | | |
