@@ -23,9 +23,15 @@ restricción técnica, RNF, dato de contexto) y justificar en una línea
 por qué no es un RF.
 
 | Fragmento | Texto | Categoría | Justificación |
-|-----------|-------|-----------|----------------|
-| | | | |
-| | | | |
+|-----------|-------|-----------|---------------|
+| V1 | «no sabés en qué estado está nada» | Dato de contexto | Origina RF-01. |
+| V1 | «A veces pisamos filas… se perdió una denuncia entera» | Dato de contexto | Describe el problema de la planilla compartida; origina RF-01. |
+| V2 | «Los siniestros importantes los tenemos que escalar al gerente. Eso sí está claro.» | Dato de contexto | Confirma la regla de RF-04, pero no define el importe. |
+| V3 | «en cualquier momento» / «ya está desactualizado» | RNF | Pide actualización inmediata, pero no tiene métrica; la parte funcional es RF-05. |
+| Caso 3.3 | La planilla está en una carpeta de red y la abren los cuatro liquidadores | Dato de contexto | Describe la situación actual, no pide nada al sistema nuevo. |
+| Caso 3.3 | Las fotos van por WhatsApp al celular personal del liquidador | Dato de contexto | Origina RF-02. |
+| Caso 3.3 | El asegurado acepta o rechaza el monto y se paga por transferencia | RF candidato | Es funcional, pero queda fuera de los cinco de esta entrega; ver E2-4 y E2-5. |
+| Caso 3.3 | El asegurado llama al 0800 para saber el estado | RF candidato | Es funcional, pero depende de decidir si el asegurado entra en este frente; ver E2-5. |
 
 ## Conflictos u observaciones detectadas
 
