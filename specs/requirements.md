@@ -12,7 +12,7 @@ mezclada).
 | RF-01 | G01-1 | El sistema debe registrar para cada siniestro un único estado elegido de una lista cerrada, sin admitir texto libre ni valor vacío. | Sistema / F | Caso 3.3; V1; planilla, columna ESTADO | Un estado fuera de la lista o vacío no se puede guardar. |
 | RF-02 | | |
 | RF-03 | | |
-| RF-04 | | |
+| RF-04 | G01-4 | Un siniestro cuyo monto calculado supere el importe de autorización no debe poder pasar a Monto ofrecido sin la autorización registrada del Gerente de Siniestros. [NEEDS CLARIFICATION: el caso dice «si supera cierto importe» y no lo define. Decide Diego Almirón.] | Negocio / F | Caso 3.3; V2; V3; planilla, 1022 | Pend. |
 | RF-05 | | |
 
 ## Fragmentos que NO son requerimientos funcionales
