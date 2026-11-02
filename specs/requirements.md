@@ -13,6 +13,8 @@ mezclada).
 | RF-03 | G01-3 | El sistema debe registrar el monto calculado de cada siniestro como un valor numérico entero, ingresado solo con dígitos, sin separador de miles ni decimales, y mostrar la suma de los montos guardados. | Usuario / F | Caso 3.3; planilla, columna MONTO ESTIM.; E1-2 | Un monto con texto o vacío no se puede guardar; uno numérico guardado se puede sumar sin conversión. |
 | RF-04 | G01-4 | Un siniestro cuyo monto calculado supere $3.000.000, o que sea de robo total o incendio total (cualquiera sea el monto), no debe poder pasar a Monto ofrecido sin la autorización registrada del Gerente de Siniestros. | Negocio / F | Caso 3.3; V2; V3; planilla, 1022; Acta 3.ª §3.6 | Un siniestro de más de $3.000.000, o de robo o incendio total, no pasa a Monto ofrecido sin autorización registrada; uno por debajo y de otro tipo, sí. |
 | RF-05 | G01-5 | El sistema debe mostrar al Gerente de Siniestros el monto total comprometido en siniestros abiertos, calculado al momento de la consulta. [NEEDS CLARIFICATION: el caso no define qué estados cuentan como «abierto» ni qué monto se suma. Decide Diego Almirón.] | Usuario / F | V3; E1-6 | Pend. |
+| RF-06 | G01-9 | Si el siniestro está asignado al Gerente de Siniestros, la autorización exigida por RF-04 debe registrarla el Director y no el Gerente. | Negocio / F | Acta 3.ª §3.6 | Un siniestro asignado al Gerente no se puede autorizar con el usuario del Gerente: solo con el del Director. |
+
 
 ## Historial de cambios
 
