@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peritaje y liquidación · Página E3 (Grupo 1)</title>
+<style>
+  :root { --bg:#f6f7fb; --card:#fff; --ink:#1f2340; --muted:#5d6280; --line:#d9dcea; --accent:#3b4cca; --ok:#0b6b3a; --okbg:#e3f5ea; --err:#9b1c1c; --errbg:#fbe9e9; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14162a; --card:#1d2038; --ink:#e8eaf8; --muted:#9ba0c4; --line:#343858; --accent:#8c99ff; --ok:#7fdcA6; --okbg:#173326; --err:#ff9c9c; --errbg:#3a1c1f; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui, sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  h2 { font-size: 1.15rem; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  label { display:block; font-weight:600; margin: 10px 0 4px; }
+  input, select, button { font: inherit; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); max-width: 100%; }
+  input[type=file] { padding: 6px; }
+  button { background: var(--accent); color: #fff; border-color: var(--accent); cursor: pointer; margin-top: 12px; }
+  button.sec { background: transparent; color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tablewrap { overflow-x: auto; }
+  .msg { margin-top: 10px; padding: 8px 10px; border-radius: 6px; display: none; }
+  .msg.ok { display:block; background: var(--okbg); color: var(--ok); }
+  .msg.err { display:block; background: var(--errbg); color: var(--err); }
+  .tag { font-size: .75rem; background: var(--bg); color: var(--muted); border: 1px solid var(--line); padding: 1px 6px; border-radius: 10px; margin-left: 4px; }
+  .thumbs { display:flex; gap:8px; flex-wrap:wrap; margin: 6px 0; }
+  .thumbs img { width: 90px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); }
+  .adj { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 8px; }
+  .row { display:flex; gap:16px; flex-wrap:wrap; }
+  .row > div { flex: 1 1 220px; }
+  .step { color: var(--muted); font-size: .9rem; }
+  .total { font-size: 1.1rem; font-weight: 700; margin-top: 10px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Peritaje y liquidación</h1>
+  <p class="sub">Página generada desde la especificación (E3) · Aseguradora Pampa S.A. · Grupo 1 · Implementa RF-01, RF-02, RF-03 y UC-01 (pasos 1 a 7, flujos 3a y 5b). Los datos son de prueba y se guardan solo mientras la página está abierta.</p>
+
+  <section>
+    <h2>Siniestros</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Nro</th><th>Asegurado</th><th>Tipo</th><th>Estado</th><th>Monto calculado</th><th>Cobertura</th><th>Observación (planilla)</th></tr></thead>
+        <tbody id="tabla"></tbody>
+      </table>
+    </div>
+    <div class="total" id="suma"></div>
+  </section>
+
+  <section>
+    <h2>RF-01 · Estado del siniestro <span class="tag">G01-1</span></h2>
+    <label for="rf1-sin">Siniestro</label>
+    <select id="rf1-sin"></select>
+    <label for="rf1-estado">Estado</label>
+    <input id="rf1-estado" list="lista-estados" autocomplete="off" placeholder="Elegí un estado de la lista">
+    <datalist id="lista-estados"></datalist>
+    <br><button id="rf1-guardar">Guardar estado</button>
+    <div id="rf1-msg" class="msg" role="status"></div>
+  </section>
+
+  <section>
+    <h2>RF-02 · Fotos e informe de pericia <span class="tag">G01-2</span></h2>
+    <div class="row">
+      <div>
+        <label for="rf2-sin">Siniestro</label>
+        <select id="rf2-sin"></select>
+      </div>
+      <div>
+        <label for="rf2-perito">Perito que los envió</label>
+        <input id="rf2-perito" placeholder="Ej.: Gómez (dato de prueba)">
+      </div>
+      <div>
+        <label for="rf2-fecha">Fecha de carga <span class="tag">se completa a mano</span></label>
+        <input id="rf2-fecha" type="date">
+      </div>
+    </div>
+    <label for="rf2-fotos">Fotos</label>
+    <input id="rf2-fotos" type="file" accept="image/*" multiple>
+    <label for="rf2-informe">Informe de pericia</label>
+    <input id="rf2-informe" type="file">
+    <br><button id="rf2-adjuntar">Adjuntar</button>
+    <div id="rf2-msg" class="msg" role="status"></div>
+    <h3 style="font-size:1rem;margin:16px 0 0">Adjuntos por siniestro</h3>
+    <div id="rf2-lista"></div>
+  </section>
+
+  <section>
+    <h2>RF-03 · Monto calculado <span class="tag">G01-3</span></h2>
+    <label for="rf3-sin">Siniestro</label>
+    <select id="rf3-sin"></select>
+    <label for="rf3-monto">Monto calculado</label>
+    <input id="rf3-monto" inputmode="numeric" autocomplete="off" placeholder="Solo número, sin puntos ni texto">
+    <br><button id="rf3-guardar">Guardar monto</button>
+    <div id="rf3-msg" class="msg" role="status"></div>
+  </section>
+
+  <section>
+    <h2>UC-01 · Liquidar siniestro</h2>
+    <div id="uc" aria-live="polite"></div>
+  </section>
+</main>
+
+<script>
+"use strict";
+var ESTADOS = ["Denunciado","En pericia","En liquidación","En autorización","Monto ofrecido","Pagado","Cerrado","Rechazado"];
+
+// Datos de prueba tomados de los criterios de aceptación y de la planilla
+var siniestros = [
+  { nro:1004, asegurado:"Fernández, Ana", tipo:"Granizo", estado:"En pericia", monto:null, cobertura:null, obs:"faltan fotos", adjuntos:[] },
+  { nro:1005, asegurado:"Martínez SRL", tipo:"Choque", estado:"En pericia", monto:720000, cobertura:null, obs:"", adjuntos:[] },
+  { nro:1012, asegurado:"Molina, Jorge", tipo:"Choque", estado:"", monto:null, cobertura:null, obs:"no se sabe en que quedo", adjuntos:[] },
+  { nro:1014, asegurado:"Díaz, Miguel", tipo:"Choque", estado:"En liquidación", monto:null, cobertura:null, obs:"monto a confirmar", adjuntos:[] }
+];
+
+function $(id){ return document.getElementById(id); }
+function buscar(nro){ return siniestros.filter(function(s){ return s.nro === Number(nro); })[0]; }
+function msg(id, tipo, texto){ var e=$(id); e.className = "msg " + tipo; e.textContent = texto; }
+function esc(t){ var d=document.createElement("div"); d.textContent = t; return d.innerHTML; }
+function fmtMonto(n){ return n === null ? "—" : "$ " + n.toLocaleString("es-AR"); }
+function fmtFecha(iso){ var p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; }
+
+function render(){
+  $("tabla").innerHTML = siniestros.map(function(s){
+    return "<tr><td>"+s.nro+"</td><td>"+esc(s.asegurado)+"</td><td>"+s.tipo+"</td><td>"+(s.estado ? esc(s.estado) : "<i>sin estado</i>")+"</td><td>"+fmtMonto(s.monto)+"</td><td>"+(s.cobertura || "—")+"</td><td>"+esc(s.obs)+"</td></tr>";
+  }).join("");
+  var suma = siniestros.reduce(function(a,s){ return a + (s.monto === null ? 0 : s.monto); }, 0);
+  $("suma").textContent = "Suma de montos guardados: " + suma;
+  var opts = siniestros.map(function(s){ return "<option value='"+s.nro+"'>"+s.nro+" · "+esc(s.asegurado)+"</option>"; }).join("");
+  ["rf1-sin","rf2-sin","rf3-sin"].forEach(function(id){ var v=$(id).value; $(id).innerHTML = opts; if (v) $(id).value = v; });
+  $("lista-estados").innerHTML = ESTADOS.map(function(e){ return "<option value='"+e+"'>"; }).join("");
+  renderAdjuntos();
+  ucRender();
+}
+
+// RF-01
+$("rf1-guardar").addEventListener("click", function(){
+  var s = buscar($("rf1-sin").value);
+  var txt = $("rf1-estado").value.trim();
+  if (txt === "") { msg("rf1-msg","err","Falta el estado: elegí uno de la lista. El siniestro "+s.nro+" no se guardó."); return; }
+  if (ESTADOS.indexOf(txt) === -1) { msg("rf1-msg","err","«"+txt+"» no es un estado válido. Solo se aceptan: "+ESTADOS.join(", ")+"."); return; }
+  s.estado = txt;
+  $("rf1-estado").value = "";
+  msg("rf1-msg","ok","Siniestro "+s.nro+" guardado en estado "+txt+".");
+  render();
+});
+
+// RF-02
+$("rf2-adjuntar").addEventListener("click", function(){
+  var s = buscar($("rf2-sin").value);
+  var perito = $("rf2-perito").value.trim();
+  var fecha = $("rf2-fecha").value;
+  var fotos = Array.prototype.slice.call($("rf2-fotos").files);
+  var informe = $("rf2-informe").files[0] || null;
+  if (!perito) { msg("rf2-msg","err","Falta el perito que envió los archivos."); return; }
+  if (!fecha) { msg("rf2-msg","err","Falta la fecha de carga."); return; }
+  if (fotos.length === 0 && !informe) { msg("rf2-msg","err","Adjuntá al menos una foto o el informe."); return; }
+  s.adjuntos.push({
+    perito: perito, fecha: fecha,
+    fotos: fotos.map(function(f){ return { name:f.name, url:URL.createObjectURL(f) }; }),
+    informe: informe ? informe.name : null
+  });
+  $("rf2-fotos").value = ""; $("rf2-informe").value = "";
+  msg("rf2-msg","ok","Adjuntos cargados en el siniestro "+s.nro+".");
+  render();
+});
+function renderAdjuntos(){
+  var html = siniestros.filter(function(s){ return s.adjuntos.length > 0; }).map(function(s){
+    return "<div class='adj'><b>Siniestro "+s.nro+" · "+esc(s.asegurado)+"</b>" + s.adjuntos.map(function(a){
+      return "<div>Perito: "+esc(a.perito)+" · Fecha: "+fmtFecha(a.fecha)+"</div>" +
+        (a.fotos.length ? "<div>"+a.fotos.length+" foto(s)</div><div class='thumbs'>"+a.fotos.map(function(f){ return "<img src='"+f.url+"' alt='"+esc(f.name)+"' title='"+esc(f.name)+"'>"; }).join("")+"</div>" : "") +
+        (a.informe ? "<div>Informe: "+esc(a.informe)+"</div>" : "");
+    }).join("") + "</div>";
+  }).join("");
+  $("rf2-lista").innerHTML = html || "<p class='step'>Todavía no hay adjuntos cargados.</p>";
+}
+
+// RF-03
+function esNumero(t){ return /^[0-9]+$/.test(t); }
+$("rf3-guardar").addEventListener("click", function(){
+  var s = buscar($("rf3-sin").value);
+  var txt = $("rf3-monto").value.trim();
+  if (!esNumero(txt)) { msg("rf3-msg","err","El monto tiene que ser un número (solo dígitos). No se guardó."); return; }
+  s.monto = Number(txt);
+  $("rf3-monto").value = "";
+  msg("rf3-msg","ok","Monto "+s.monto+" guardado como número en el siniestro "+s.nro+".");
+  render();
+});
+
+// UC-01
+var uc = { paso:1, nro:null, cubierto:null, monto:null, fin:null, aviso:null };
+function ucReset(){ uc = { paso:1, nro:null, cubierto:null, monto:null, fin:null, aviso:null }; ucRender(); }
+function ucRender(){
+  var c = $("uc"), h = "", s = uc.nro ? buscar(uc.nro) : null;
+  if (uc.fin) {
+    h = "<div class='msg ok' style='display:block'>"+esc(uc.fin)+"</div><button id='uc-reiniciar' class='sec'>Liquidar otro siniestro</button>";
+  } else if (uc.paso === 1) {
+    var cand = siniestros.filter(function(x){ return x.estado === "En liquidación"; });
+    h = "<p class='step'>Paso 1 · El liquidador selecciona un siniestro En liquidación.</p>";
+    if (cand.length === 0) h += "<p>No hay siniestros En liquidación. Llevá uno a ese estado con RF-01.</p>";
+    else h += "<select id='uc-sin'>"+cand.map(function(x){ return "<option value='"+x.nro+"'>"+x.nro+" · "+esc(x.asegurado)+"</option>"; }).join("")+"</select><br><button id='uc-p1'>Seleccionar</button>";
+    if (uc.aviso) h += "<div class='msg err' style='display:block'>"+esc(uc.aviso)+"</div>";
+  } else if (uc.paso === 2) {
+    var tieneFotos = s.adjuntos.some(function(a){ return a.fotos.length > 0; });
+    var tieneInforme = s.adjuntos.some(function(a){ return a.informe; });
+    h = "<p class='step'>Paso 2 · Se ejecuta UC-02 Consultar informe y fotos de pericia (include).</p><p>Siniestro "+s.nro+" · "+esc(s.asegurado)+"</p>";
+    if (!tieneFotos || !tieneInforme) {
+      h += "<div class='msg err' style='display:block'>No se cumple la precondición: el siniestro necesita informe de pericia y fotos. Cargalos en RF-02 y volvé a empezar.</div><button id='uc-reiniciar' class='sec'>Volver al paso 1</button>";
+    } else {
+      s.adjuntos.forEach(function(a){
+        h += "<div class='adj'>Perito: "+esc(a.perito)+" · Fecha: "+fmtFecha(a.fecha)+(a.informe ? " · Informe: "+esc(a.informe) : "")+"<div class='thumbs'>"+a.fotos.map(function(f){ return "<img src='"+f.url+"' alt='"+esc(f.name)+"'>"; }).join("")+"</div></div>";
+      });
+      h += "<button id='uc-p2'>Continuar</button>";
+    }
+  } else if (uc.paso === 3) {
+    h = "<p class='step'>Paso 3 · El liquidador registra si el siniestro está cubierto.</p>"+
+        "<label><input type='radio' name='cub' value='si'> Está cubierto</label><label><input type='radio' name='cub' value='no'> No está cubierto</label>"+
+        "<button id='uc-p3'>Registrar</button>";
+    if (uc.aviso) h += "<div class='msg err' style='display:block'>"+esc(uc.aviso)+"</div>";
+  } else if (uc.paso === 4) {
+    h = "<p class='step'>Paso 4 · El liquidador registra el monto calculado.</p>"+
+        "<input id='uc-monto' inputmode='numeric' autocomplete='off' placeholder='Solo número'><br><button id='uc-p4'>Siguiente</button>";
+    if (uc.aviso) h += "<div class='msg err' style='display:block'>"+esc(uc.aviso)+"</div>";
+  } else if (uc.paso === 6) {
+    h = "<p class='step'>Paso 5 · El sistema verificó que el monto es numérico. (La verificación contra el importe de autorización no está implementada.)</p>"+
+        "<p class='step'>Paso 6 · El liquidador confirma.</p><p>Siniestro "+s.nro+": cubierto, monto "+uc.monto+".</p><button id='uc-p6'>Confirmar</button> <button id='uc-reiniciar' class='sec'>Cancelar</button>";
+  }
+  c.innerHTML = h;
+  var r = $("uc-reiniciar"); if (r) r.addEventListener("click", ucReset);
+  if ($("uc-p1")) $("uc-p1").addEventListener("click", function(){ uc.nro = $("uc-sin").value; uc.paso = 2; uc.aviso = null; ucRender(); });
+  if ($("uc-p2")) $("uc-p2").addEventListener("click", function(){ uc.paso = 3; uc.aviso = null; ucRender(); });
+  if ($("uc-p3")) $("uc-p3").addEventListener("click", function(){
+    var sel = document.querySelector("input[name=cub]:checked");
+    if (!sel) { uc.aviso = "Elegí si el siniestro está cubierto o no."; ucRender(); return; }
+    if (sel.value === "no") { // flujo 3a
+      var x = buscar(uc.nro); x.cobertura = "No cubierto"; x.estado = "Rechazado";
+      uc.fin = "Flujo 3a: el siniestro "+x.nro+" no está cubierto. Quedó Rechazado y el caso de uso terminó.";
+      render(); return;
+    }
+    uc.cubierto = true; uc.paso = 4; uc.aviso = null; ucRender();
+  });
+  if ($("uc-p4")) $("uc-p4").addEventListener("click", function(){
+    var t = $("uc-monto").value.trim();
+    if (!esNumero(t)) { uc.aviso = "Flujo 5b: el monto no es numérico o está vacío. Volvé a ingresarlo."; ucRender(); return; } // vuelve al paso 4
+    uc.monto = Number(t); uc.paso = 6; uc.aviso = null; ucRender();
+  });
+  if ($("uc-p6")) $("uc-p6").addEventListener("click", function(){
+    var x = buscar(uc.nro); x.cobertura = "Cubierto"; x.monto = uc.monto; x.estado = "Monto ofrecido";
+    uc.fin = "Paso 7: se registraron la cobertura y el monto "+x.monto+". El siniestro "+x.nro+" quedó en Monto ofrecido.";
+    render();
+  });
+}
+
+render();
+</script>
+</body>
+</html>
